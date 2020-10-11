@@ -7,6 +7,8 @@ const client = new Client({ disableEveryone: true })
 
 client.on('ready', () => console.log('ready'))
 
+let vol = 5;
+
 client.on('message', async message => {
     if (message.author.bot) return;
     if (!message.content.startsWith(PREFIX)) return;
@@ -36,12 +38,16 @@ client.on('message', async message => {
                 console.log(err)
             })
 
-        dispatcher.setVolumeLogarithmic(1 / 8)
+        dispatcher.setVolumeLogarithmic(vol / 8)
 
     } else if (message.content.startsWith(PREFIX + 'stop')) {
         if (!message.member.voice.channel) return message.channel.send('You need to be in the voice channel to stop the music')
         message.member.voice.channel.leave()
         return message.channel.send('Stopping Music... See you soon')
+    } else if (message.content.startsWith(PREFIX + 'vol')) {
+        volArr = message.content.split(" ")
+        newVol = volArr[1]
+        vol = newVol
     }
 })
 
